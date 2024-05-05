@@ -103,6 +103,7 @@ export default function Products() {
                   placeholder='Search products'
                   onChange={(ev) => {
                     setSearch(ev.target.value)
+                    setPage(1)
                     fetchProducts({
                       category,
                       search: ev.target.value,
@@ -147,6 +148,7 @@ export default function Products() {
                               )}
                               onClick={() => {
                                 setSort(option.value)
+                                setPage(1)
                                 fetchProducts({
                                   category,
                                   search,
@@ -199,6 +201,7 @@ export default function Products() {
                               )}
                               onClick={() => {
                                 setCategory(option.value)
+                                setPage(1)
                                 fetchProducts({
                                   category: option.value,
                                   search,

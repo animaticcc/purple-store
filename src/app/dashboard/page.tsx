@@ -113,6 +113,7 @@ export default function Dashboard() {
                   placeholder='Search products'
                   onChange={(ev) => {
                     setSearch(ev.target.value)
+                    setPage(1)
                     fetchProducts({
                       category,
                       search: ev.target.value,
@@ -157,6 +158,7 @@ export default function Dashboard() {
                               )}
                               onClick={() => {
                                 setSort(option.value)
+                                setPage(1)
                                 fetchProducts({
                                   category,
                                   search,
@@ -209,6 +211,7 @@ export default function Dashboard() {
                               )}
                               onClick={() => {
                                 setCategory(option.value)
+                                setPage(1)
                                 fetchProducts({
                                   category: option.value,
                                   search,
