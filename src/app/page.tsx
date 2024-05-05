@@ -1,3 +1,8 @@
+'use client'
+import Product from '@/components/product'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
 const favorites = [
   {
     id: 1,
@@ -30,6 +35,16 @@ const favorites = [
 ]
 
 export default function Home() {
+  const [products, setProducts] = useState<any[]>([])
+
+  useEffect(() => {
+    fetch('/api/products?products-limit=3').then((res) => {
+      res.json().then((products) => {
+        setProducts(products.result)
+      })
+    })
+  }, [])
+
   return (
     <>
       {/* Hero section */}
@@ -113,12 +128,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <a
-                href='#'
+              <Link
+                href='/products'
                 className='inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700'
               >
                 Shop Collection
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -126,7 +141,7 @@ export default function Home() {
 
       <main>
         {/* Category section */}
-        <section aria-labelledby='category-heading' className='bg-gray-50'>
+        {/* <section aria-labelledby='category-heading' className='bg-gray-50'>
           <div className='mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8'>
             <div className='sm:flex sm:items-baseline sm:justify-between'>
               <h2
@@ -229,10 +244,10 @@ export default function Home() {
               </a>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Featured section */}
-        {/* <section aria-labelledby='cause-heading'>
+        <section aria-labelledby='cause-heading'>
           <div className='relative bg-gray-800 px-6 py-32 sm:px-12 sm:py-40 lg:px-16'>
             <div className='absolute inset-0 overflow-hidden'>
               <img
@@ -266,7 +281,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-        </section> */}
+        </section>
 
         {/* Favorites section */}
         <section aria-labelledby='favorites-heading'>
@@ -278,33 +293,18 @@ export default function Home() {
               >
                 Our Favorites
               </h2>
-              <a
-                href='#'
+              <Link
+                href='/products'
                 className='hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block'
               >
                 Browse all favorites
                 <span aria-hidden='true'> &rarr;</span>
-              </a>
+              </Link>
             </div>
 
             <div className='mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 lg:gap-x-8'>
-              {favorites.map((favorite) => (
-                <div key={favorite.id} className='group relative'>
-                  <div className='h-96 w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2 group-hover:opacity-75 sm:h-auto'>
-                    <img
-                      src={favorite.imageSrc}
-                      alt={favorite.imageAlt}
-                      className='h-full w-full object-cover object-center'
-                    />
-                  </div>
-                  <h3 className='mt-4 text-base font-semibold text-gray-900'>
-                    <a href={favorite.href}>
-                      <span className='absolute inset-0' />
-                      {favorite.name}
-                    </a>
-                  </h3>
-                  <p className='mt-1 text-sm text-gray-500'>{favorite.price}</p>
-                </div>
+              {products.map((product: any) => (
+                <Product key={product._id} product={product} href='products' />
               ))}
             </div>
 
@@ -336,10 +336,13 @@ export default function Home() {
                       Up to 50% off.
                     </h2>
                     <div className='mt-6 text-base'>
-                      <a href='#' className='font-semibold text-white'>
+                      <Link
+                        href='/products'
+                        className='font-semibold text-white'
+                      >
                         Shop the sale
                         <span aria-hidden='true'> &rarr;</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
 

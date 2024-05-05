@@ -8,12 +8,13 @@ export async function GET(req: any) {
   const search = url.searchParams.get('search') || ''
   const sort = url.searchParams.get('sort') || '-createdAt'
   const page = Number(url.searchParams.get('page')) || 1
-  const productsLimit = 16
+
+  const productsLimit = Number(url.searchParams.get('products-limit')) || 16
 
   return Response.json({
     result: await Product.find({
       name: { $regex: search, $options: 'i' },
-      category: { $regex: category },
+      category: { $regex: category, $options: 'i' },
     })
       .sort(sort)
       .skip(Math.max((page - 1) * productsLimit, 0))
@@ -21,7 +22,7 @@ export async function GET(req: any) {
     pages: Math.ceil(
       (await Product.find({
         name: { $regex: search, $options: 'i' },
-        category: { $regex: category },
+        category: { $regex: category, $options: 'i' },
       }).countDocuments()) / productsLimit
     ),
   })
